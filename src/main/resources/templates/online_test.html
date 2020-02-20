@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Онлайн тест</title>
+    <script src="/js/jquery-1.9.1.js"></script>
+</head>
+<body>
+<h3>Онлайн тест. Ответьте на вопросы</h3>
+<div  id="page-content">
+
+<script>
+    $(document).ready(function () {
+        $.getJSON("/queries", function(data){
+            //  read_products_html=`<form id="send">`;
+            read_products_html=``
+            $.each(data, function(key, val) {
+                // создание новой строки таблицы для каждой записи
+                read_products_html+=`
+                    <p><b>` + val.text + `</b></p>`
+
+                if (val.type == 1) {
+                    $.each(val.answers, function(key1, val1) {
+                        read_products_html += `
+                        <input name="` + val.id + `" type="radio" value="` + val1 + `">` + val1 + `</br>`
+                    })
+                } else {
+                    read_products_html += `
+                        <input name="` + val.id + `" maxlength="25" size="40" value=""></br>`
+                }
+                read_products_html+=`<br>`
+            });
+            //read_products_html+=`<div><button type="submit" name="AddProduct">Отправить</button></div>`;
+            read_products_html+=`<p><input type="submit"></p>`;
+//            read_products_html+=`<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />`
+
+            //read_products_html+=`</form>`;
+            $("#send1").html(read_products_html);
+            //$('#result').text(document.getElementById('send').innerHTML);  //method="post" action="/example/handler"
+        });
+    });
+</script>
+
+<form id="send" th:action="@{/putUserAnswers}">
+<div id="send1"></div>
+    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+</form>
+<div id="result"></div>
+
+<script>
+    $('#send').submit(function(){
+
+        var object = new Array();
+        var formData = $("#send").serializeArray();
+
+        var value2 = {};
+        formData.forEach(function(value, key){
+            object[key] = {
+                queryId: value.name,
+                answer: value.value
+            };
+        });
+
+        //var json = JSON.stringify($("#send").serializeArray());
+        var json = JSON.stringify(object);
+
+        $.ajax({
+            url: "/answers",
+            method: "POST",
+            contentType: 'application/json',
+            data: json,
+            success: function (response) {
+                console.log(response);
+                $('#send').hide('slow');
+                $('#result').text(response.message);
+            },
+            error: function (jqXHR, textStatus, errorThrown ) {
+                var err = JSON.parse(jqXHR.responseText);
+                $('#result').text("Прозошла ошибка!!!" + err.message);
+            }
+        });
+        return false;
+    });
+</script>
+</div>
+<div id="sourceText"> </div>
+<script>
+
+</script>
+</body>
+</html>

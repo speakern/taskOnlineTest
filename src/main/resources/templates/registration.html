@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Онлайн тест. Отправка нового вопроса. Тип 1</title>
+    <script src="/js/jquery-1.9.1.js"></script>
+</head>
+<body>
+Add new user
+<form id="my_form">
+    <div><label> User Name : <input type="text" name="username"/> </label></div>
+    <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div><input type="submit" value="Ok"/></div>
+</form>
+<div id="result"></div>
+<div id="result2"></div>
+
+<script>
+    $('#my_form').submit(function(){
+
+        var values = {};
+        $.each($(this).serializeArray(), function(){ values[this.name] = this.value; });
+
+        // Prepare the DTO
+        var product = {
+            username: values["username"],
+            password: values["password"],
+
+        };
+
+        var json = JSON.stringify(product);
+        $.ajax({
+            url: "/users",
+            method: "POST",
+            contentType: 'application/json',
+            data: json,
+            success: function (response) {
+                console.log(response);
+                $('#my_form').hide('slow');
+                $('#result').text(response.message);
+                $('#result2').text("");
+            },
+            error: function (jqXHR, textStatus, errorThrown ) {
+               var err = JSON.parse(jqXHR.responseText);
+               $('#result').text("Прозошла ошибка!!! " + err.message);
+               $('#result2').text(err.debugMessage);
+
+            }
+        });
+        return false;
+    });
+</script>
+<a href="/home">На главную страницу</a>
+</body>
+</html>

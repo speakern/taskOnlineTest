@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Операции администратора.</title>
+    <script src="/js/jquery-1.9.1.js"></script>
+</head>
+<body>
+<h3>Операции администратора</h3>
+<h1 th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!</h1>
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
+
+<p><a href="/send_new_query">Добавить новый вопрос. Тип 1</a></p>
+<p><a href="/send_new_query2">Добавить новый вопрос. Тип 2</a></p>
+<p><a href="/register_users">Пользователи системы</a></p>
+<p><a href="/common_statistics">Общая статистика</a></p>
+
+</body>
+</html>

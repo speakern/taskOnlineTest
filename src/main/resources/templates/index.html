@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Онлайн тест.</title>
+    <script src="/js/jquery-1.9.1.js"></script>
+</head>
+<body>
+<h3>Онлайн тест.</h3>
+<h1 th:inline="text">Зашел как: [[${#httpServletRequest.remoteUser}]]!</h1>
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
+
+<p><a href="/online_test">Пройти тест</a></p>
+<p><a href="/user_answers">Посмотреть свои ответы</a></p>
+<p><a href="/user_statistics">Статистика текущий пользователь.</a></p>
+
+</body>
+</html>

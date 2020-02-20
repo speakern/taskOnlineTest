@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Cтатистика по пользователю</title>
+    <script src="/js/jquery-1.9.1.js"></script>
+</head>
+<body>
+<h3>Cтатистика по пользователю</h3>
+<div  id="page-content">
+
+    <script>
+    $(document).ready(function () {
+        $.getJSON("/countRightAnswers", function(data){
+            read_products_html= data.comment + `: </br>   ` + data.message + `</br></br>`;
+            $("#stat1").html(read_products_html);
+        });
+        $.getJSON("/countUsersTestedWorseCurrent", function(data){
+            read_products_html= data.comment + `: </br>` + data.message + `</br></br>`;
+            $("#stat2").html(read_products_html);
+        });
+        $.getJSON("/countUsersTestedBetterCurrent", function(data){
+            read_products_html= data.comment + `: </br>` + data.message + `</br></br>`;
+            $("#stat3").html(read_products_html);
+        });
+        $.getJSON("/countUsersTestedEqualCurrent", function(data){
+            read_products_html= data.comment + `: </br>` + data.message + `</br></br>`;
+            $("#stat4").html(read_products_html);
+        });
+    });
+</script>
+    <div id="stat1"></div>
+    <div id="stat2"></div>
+    <div id="stat3"></div>
+    <div id="stat4"></div>
+</div>
+</body>
+</html>

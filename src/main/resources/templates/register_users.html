@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Онлайн тест</title>
+    <script src="/js/jquery-1.9.1.js"></script>
+</head>
+<body>
+<h3>Зарегистрированные пользователи.</h3>
+<div  id="page-content">
+
+    <script>
+    $(document).ready(function () {
+        $.getJSON("/users", function(data){
+            //  read_products_html=`<form id="send">`;
+            read_products_html=`<p>Список: </p>`
+            $.each(data, function(key, val) {
+                // создание новой строки таблицы для каждой записи
+                read_products_html+=`
+                    <b>` + val.username + `</b></br>`
+                read_products_html+=`<br>`
+            });
+
+            $("#send1").html(read_products_html);
+            //$('#result').text(document.getElementById('send').innerHTML);  //method="post" action="/example/handler"
+        });
+    });
+</script>
+    <div id="send1"></div>
+</div>
+</body>
+</html>
